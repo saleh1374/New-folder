@@ -1,0 +1,968 @@
+{
+  "1": {
+    "splits": {
+      "train": {
+        "track": 1,
+        "split": "train",
+        "files": {
+          "labeled": {
+            "path": "repo\\final_data\\train\\dico_nli_train_track1_participant_labeled.csv",
+            "rows": 3042,
+            "columns": [
+              "instance_id",
+              "pair_id",
+              "text1_lang",
+              "text2_lang",
+              "text1",
+              "text2",
+              "label"
+            ]
+          },
+          "reference": {
+            "path": "repo\\final_data\\train\\dico_nli_train_track1_reference.csv",
+            "rows": 3042,
+            "columns": [
+              "instance_id",
+              "pair_id",
+              "text1_lang",
+              "text2_lang",
+              "text1",
+              "text2",
+              "reverse_pair_id",
+              "label"
+            ]
+          },
+          "submission_template": {
+            "path": "repo\\final_data\\train\\dico_nli_train_track1_submission_template.csv",
+            "rows": 3042,
+            "columns": [
+              "instance_id",
+              "label"
+            ]
+          }
+        },
+        "id_sets": {
+          "labeled_equals_reference": true,
+          "instance_ids": 3042
+        },
+        "quality": {
+          "empty_cells": {
+            "instance_id": 0,
+            "pair_id": 0,
+            "text1_lang": 0,
+            "text2_lang": 0,
+            "text1": 0,
+            "text2": 0,
+            "label": 0
+          },
+          "duplicate_instance_ids": 0,
+          "duplicate_text_pairs": 51,
+          "empty_texts": 0
+        },
+        "labels": {
+          "EQUIVALENCE": 802,
+          "FORWARD_ENTAILMENT": 881,
+          "BACKWARD_ENTAILMENT": 881,
+          "NEGATIVE_OTHER": 478
+        },
+        "language_pairs": {
+          "en-en": 3042
+        },
+        "reverse_pairs": {
+          "linked_instances": 2564,
+          "reversible_units": 1282,
+          "singleton_units": 478,
+          "self_links": 0,
+          "label_mapping_ok": true
+        },
+        "lengths": {
+          "chars_total": {
+            "mean": 31.64,
+            "p50": 29.0,
+            "p95": 59.0,
+            "p99": 75.0,
+            "max": 108
+          },
+          "tokens": {
+            "mean": 11.87,
+            "p95": 18.0,
+            "p99": 23.0,
+            "max": 35
+          },
+          "recommended_max_length": 48
+        }
+      },
+      "dev": {
+        "track": 1,
+        "split": "dev",
+        "files": {
+          "labeled": {
+            "path": "repo\\final_data\\dev\\dico_nli_dev_track1_participant_labeled.csv",
+            "rows": 660,
+            "columns": [
+              "instance_id",
+              "pair_id",
+              "text1_lang",
+              "text2_lang",
+              "text1",
+              "text2",
+              "label"
+            ]
+          },
+          "reference": {
+            "path": "repo\\final_data\\dev\\dico_nli_dev_track1_reference.csv",
+            "rows": 660,
+            "columns": [
+              "instance_id",
+              "pair_id",
+              "text1_lang",
+              "text2_lang",
+              "text1",
+              "text2",
+              "reverse_pair_id",
+              "label"
+            ]
+          },
+          "submission_template": {
+            "path": "repo\\final_data\\dev\\dico_nli_dev_track1_submission_template.csv",
+            "rows": 660,
+            "columns": [
+              "instance_id",
+              "label"
+            ]
+          }
+        },
+        "id_sets": {
+          "labeled_equals_reference": true,
+          "instance_ids": 660
+        },
+        "quality": {
+          "empty_cells": {
+            "instance_id": 0,
+            "pair_id": 0,
+            "text1_lang": 0,
+            "text2_lang": 0,
+            "text1": 0,
+            "text2": 0,
+            "label": 0
+          },
+          "duplicate_instance_ids": 0,
+          "duplicate_text_pairs": 4,
+          "empty_texts": 0
+        },
+        "labels": {
+          "EQUIVALENCE": 174,
+          "FORWARD_ENTAILMENT": 190,
+          "BACKWARD_ENTAILMENT": 190,
+          "NEGATIVE_OTHER": 106
+        },
+        "language_pairs": {
+          "en-en": 660
+        },
+        "reverse_pairs": {
+          "linked_instances": 554,
+          "reversible_units": 277,
+          "singleton_units": 106,
+          "self_links": 0,
+          "label_mapping_ok": true
+        },
+        "lengths": {
+          "chars_total": {
+            "mean": 31.43,
+            "p50": 29.0,
+            "p95": 57.0,
+            "p99": 69.2299999999999,
+            "max": 81
+          },
+          "tokens": {
+            "mean": 11.61,
+            "p95": 17.049999999999955,
+            "p99": 21.409999999999968,
+            "max": 30
+          },
+          "recommended_max_length": 48
+        }
+      }
+    },
+    "leakage": {
+      "instance_id_overlap": 0,
+      "pair_id_overlap": 0,
+      "text_pair_overlap": 13,
+      "reversed_text_overlap": 12,
+      "text_overlap_instances": 15,
+      "text_overlap_label_conflicts": 0,
+      "text_overlap_examples": [
+        {
+          "instance_id": "dico_phrasis_0000271__en-en__flipped",
+          "text1": "US stocks",
+          "text2": "Stocks",
+          "dev_label": "FORWARD_ENTAILMENT",
+          "train_label": "FORWARD_ENTAILMENT",
+          "direction": "same"
+        },
+        {
+          "instance_id": "dico_phrasis_0000271__en-en__original",
+          "text1": "Stocks",
+          "text2": "US stocks",
+          "dev_label": "BACKWARD_ENTAILMENT",
+          "train_label": "BACKWARD_ENTAILMENT",
+          "direction": "same"
+        },
+        {
+          "instance_id": "dico_phrasis_0000329__en-en__flipped",
+          "text1": "Suicide bombers",
+          "text2": "Suicide bomber",
+          "dev_label": "FORWARD_ENTAILMENT",
+          "train_label": "FORWARD_ENTAILMENT",
+          "direction": "same"
+        },
+        {
+          "instance_id": "dico_phrasis_0000329__en-en__original",
+          "text1": "Suicide bomber",
+          "text2": "Suicide bombers",
+          "dev_label": "BACKWARD_ENTAILMENT",
+          "train_label": "BACKWARD_ENTAILMENT",
+          "direction": "same"
+        },
+        {
+          "instance_id": "dico_phrasis_0000768__en-en__flipped",
+          "text1": "play",
+          "text2": "are playing",
+          "dev_label": "EQUIVALENCE",
+          "train_label": "EQUIVALENCE",
+          "direction": "same"
+        }
+      ],
+      "train_pair_ids": 1760,
+      "dev_pair_ids": 383,
+      "split_leak_free": true
+    }
+  },
+  "2": {
+    "splits": {
+      "train": {
+        "track": 2,
+        "split": "train",
+        "files": {
+          "labeled": {
+            "path": "repo\\final_data\\train\\dico_nli_train_track2_participant_labeled.csv",
+            "rows": 3042,
+            "columns": [
+              "instance_id",
+              "pair_id",
+              "text1_lang",
+              "text2_lang",
+              "text1",
+              "text2",
+              "label"
+            ]
+          },
+          "reference": {
+            "path": "repo\\final_data\\train\\dico_nli_train_track2_reference.csv",
+            "rows": 3042,
+            "columns": [
+              "instance_id",
+              "pair_id",
+              "text1_lang",
+              "text2_lang",
+              "text1",
+              "text2",
+              "reverse_pair_id",
+              "label"
+            ]
+          },
+          "submission_template": {
+            "path": "repo\\final_data\\train\\dico_nli_train_track2_submission_template.csv",
+            "rows": 3042,
+            "columns": [
+              "instance_id",
+              "label"
+            ]
+          }
+        },
+        "id_sets": {
+          "labeled_equals_reference": true,
+          "instance_ids": 3042
+        },
+        "quality": {
+          "empty_cells": {
+            "instance_id": 0,
+            "pair_id": 0,
+            "text1_lang": 0,
+            "text2_lang": 0,
+            "text1": 0,
+            "text2": 0,
+            "label": 0
+          },
+          "duplicate_instance_ids": 0,
+          "duplicate_text_pairs": 75,
+          "empty_texts": 0
+        },
+        "labels": {
+          "EQUIVALENCE": 802,
+          "FORWARD_ENTAILMENT": 881,
+          "BACKWARD_ENTAILMENT": 881,
+          "NEGATIVE_OTHER": 478
+        },
+        "language_pairs": {
+          "es-es": 3042
+        },
+        "reverse_pairs": {
+          "linked_instances": 2564,
+          "reversible_units": 1282,
+          "singleton_units": 478,
+          "self_links": 0,
+          "label_mapping_ok": true
+        },
+        "lengths": {
+          "chars_total": {
+            "mean": 40.15,
+            "p50": 36.0,
+            "p95": 77.0,
+            "p99": 97.0,
+            "max": 147
+          },
+          "tokens": {
+            "mean": 13.72,
+            "p95": 23.0,
+            "p99": 28.0,
+            "max": 45
+          },
+          "recommended_max_length": 48
+        }
+      },
+      "dev": {
+        "track": 2,
+        "split": "dev",
+        "files": {
+          "labeled": {
+            "path": "repo\\final_data\\dev\\dico_nli_dev_track2_participant_labeled.csv",
+            "rows": 660,
+            "columns": [
+              "instance_id",
+              "pair_id",
+              "text1_lang",
+              "text2_lang",
+              "text1",
+              "text2",
+              "label"
+            ]
+          },
+          "reference": {
+            "path": "repo\\final_data\\dev\\dico_nli_dev_track2_reference.csv",
+            "rows": 660,
+            "columns": [
+              "instance_id",
+              "pair_id",
+              "text1_lang",
+              "text2_lang",
+              "text1",
+              "text2",
+              "reverse_pair_id",
+              "label"
+            ]
+          },
+          "submission_template": {
+            "path": "repo\\final_data\\dev\\dico_nli_dev_track2_submission_template.csv",
+            "rows": 660,
+            "columns": [
+              "instance_id",
+              "label"
+            ]
+          }
+        },
+        "id_sets": {
+          "labeled_equals_reference": true,
+          "instance_ids": 660
+        },
+        "quality": {
+          "empty_cells": {
+            "instance_id": 0,
+            "pair_id": 0,
+            "text1_lang": 0,
+            "text2_lang": 0,
+            "text1": 0,
+            "text2": 0,
+            "label": 0
+          },
+          "duplicate_instance_ids": 0,
+          "duplicate_text_pairs": 2,
+          "empty_texts": 0
+        },
+        "labels": {
+          "EQUIVALENCE": 174,
+          "FORWARD_ENTAILMENT": 190,
+          "BACKWARD_ENTAILMENT": 190,
+          "NEGATIVE_OTHER": 106
+        },
+        "language_pairs": {
+          "es-es": 660
+        },
+        "reverse_pairs": {
+          "linked_instances": 554,
+          "reversible_units": 277,
+          "singleton_units": 106,
+          "self_links": 0,
+          "label_mapping_ok": true
+        },
+        "lengths": {
+          "chars_total": {
+            "mean": 39.89,
+            "p50": 36.0,
+            "p95": 72.0,
+            "p99": 98.0,
+            "max": 112
+          },
+          "tokens": {
+            "mean": 13.62,
+            "p95": 22.0,
+            "p99": 27.0,
+            "max": 30
+          },
+          "recommended_max_length": 48
+        }
+      }
+    },
+    "leakage": {
+      "instance_id_overlap": 0,
+      "pair_id_overlap": 0,
+      "text_pair_overlap": 11,
+      "reversed_text_overlap": 11,
+      "text_overlap_instances": 13,
+      "text_overlap_label_conflicts": 1,
+      "text_overlap_examples": [
+        {
+          "instance_id": "dico_phrasis_0000271__es-es__flipped",
+          "text1": "Acciones estadounidenses",
+          "text2": "Acciones",
+          "dev_label": "FORWARD_ENTAILMENT",
+          "train_label": "FORWARD_ENTAILMENT",
+          "direction": "same"
+        },
+        {
+          "instance_id": "dico_phrasis_0000271__es-es__original",
+          "text1": "Acciones",
+          "text2": "Acciones estadounidenses",
+          "dev_label": "BACKWARD_ENTAILMENT",
+          "train_label": "BACKWARD_ENTAILMENT",
+          "direction": "same"
+        },
+        {
+          "instance_id": "dico_phrasis_0000329__es-es__flipped",
+          "text1": "Atacantes suicidas",
+          "text2": "Atacante suicida",
+          "dev_label": "FORWARD_ENTAILMENT",
+          "train_label": "FORWARD_ENTAILMENT",
+          "direction": "same"
+        },
+        {
+          "instance_id": "dico_phrasis_0000329__es-es__original",
+          "text1": "Atacante suicida",
+          "text2": "Atacantes suicidas",
+          "dev_label": "BACKWARD_ENTAILMENT",
+          "train_label": "BACKWARD_ENTAILMENT",
+          "direction": "same"
+        },
+        {
+          "instance_id": "dico_phrasis_0000752__es-es__flipped",
+          "text1": "sumergido en el agua",
+          "text2": "en el agua",
+          "dev_label": "EQUIVALENCE",
+          "train_label": "EQUIVALENCE",
+          "direction": "same"
+        }
+      ],
+      "train_pair_ids": 1760,
+      "dev_pair_ids": 383,
+      "split_leak_free": true
+    }
+  },
+  "3": {
+    "splits": {
+      "train": {
+        "track": 3,
+        "split": "train",
+        "files": {
+          "labeled": {
+            "path": "repo\\final_data\\train\\dico_nli_train_track3_participant_labeled.csv",
+            "rows": 3042,
+            "columns": [
+              "instance_id",
+              "pair_id",
+              "text1_lang",
+              "text2_lang",
+              "text1",
+              "text2",
+              "label"
+            ]
+          },
+          "reference": {
+            "path": "repo\\final_data\\train\\dico_nli_train_track3_reference.csv",
+            "rows": 3042,
+            "columns": [
+              "instance_id",
+              "pair_id",
+              "text1_lang",
+              "text2_lang",
+              "text1",
+              "text2",
+              "reverse_pair_id",
+              "label"
+            ]
+          },
+          "submission_template": {
+            "path": "repo\\final_data\\train\\dico_nli_train_track3_submission_template.csv",
+            "rows": 3042,
+            "columns": [
+              "instance_id",
+              "label"
+            ]
+          }
+        },
+        "id_sets": {
+          "labeled_equals_reference": true,
+          "instance_ids": 3042
+        },
+        "quality": {
+          "empty_cells": {
+            "instance_id": 0,
+            "pair_id": 0,
+            "text1_lang": 0,
+            "text2_lang": 0,
+            "text1": 0,
+            "text2": 0,
+            "label": 0
+          },
+          "duplicate_instance_ids": 0,
+          "duplicate_text_pairs": 73,
+          "empty_texts": 0
+        },
+        "labels": {
+          "EQUIVALENCE": 802,
+          "FORWARD_ENTAILMENT": 881,
+          "BACKWARD_ENTAILMENT": 881,
+          "NEGATIVE_OTHER": 478
+        },
+        "language_pairs": {
+          "eu-eu": 3042
+        },
+        "reverse_pairs": {
+          "linked_instances": 2564,
+          "reversible_units": 1282,
+          "singleton_units": 478,
+          "self_links": 0,
+          "label_mapping_ok": true
+        },
+        "lengths": {
+          "chars_total": {
+            "mean": 38.94,
+            "p50": 35.0,
+            "p95": 73.0,
+            "p99": 95.0,
+            "max": 138
+          },
+          "tokens": {
+            "mean": 14.31,
+            "p95": 23.0,
+            "p99": 29.0,
+            "max": 39
+          },
+          "recommended_max_length": 48
+        }
+      },
+      "dev": {
+        "track": 3,
+        "split": "dev",
+        "files": {
+          "labeled": {
+            "path": "repo\\final_data\\dev\\dico_nli_dev_track3_participant_labeled.csv",
+            "rows": 660,
+            "columns": [
+              "instance_id",
+              "pair_id",
+              "text1_lang",
+              "text2_lang",
+              "text1",
+              "text2",
+              "label"
+            ]
+          },
+          "reference": {
+            "path": "repo\\final_data\\dev\\dico_nli_dev_track3_reference.csv",
+            "rows": 660,
+            "columns": [
+              "instance_id",
+              "pair_id",
+              "text1_lang",
+              "text2_lang",
+              "text1",
+              "text2",
+              "reverse_pair_id",
+              "label"
+            ]
+          },
+          "submission_template": {
+            "path": "repo\\final_data\\dev\\dico_nli_dev_track3_submission_template.csv",
+            "rows": 660,
+            "columns": [
+              "instance_id",
+              "label"
+            ]
+          }
+        },
+        "id_sets": {
+          "labeled_equals_reference": true,
+          "instance_ids": 660
+        },
+        "quality": {
+          "empty_cells": {
+            "instance_id": 0,
+            "pair_id": 0,
+            "text1_lang": 0,
+            "text2_lang": 0,
+            "text1": 0,
+            "text2": 0,
+            "label": 0
+          },
+          "duplicate_instance_ids": 0,
+          "duplicate_text_pairs": 4,
+          "empty_texts": 0
+        },
+        "labels": {
+          "EQUIVALENCE": 174,
+          "FORWARD_ENTAILMENT": 190,
+          "BACKWARD_ENTAILMENT": 190,
+          "NEGATIVE_OTHER": 106
+        },
+        "language_pairs": {
+          "eu-eu": 660
+        },
+        "reverse_pairs": {
+          "linked_instances": 554,
+          "reversible_units": 277,
+          "singleton_units": 106,
+          "self_links": 0,
+          "label_mapping_ok": true
+        },
+        "lengths": {
+          "chars_total": {
+            "mean": 38.72,
+            "p50": 35.0,
+            "p95": 71.04999999999995,
+            "p99": 91.2299999999999,
+            "max": 120
+          },
+          "tokens": {
+            "mean": 14.01,
+            "p95": 21.0,
+            "p99": 28.409999999999968,
+            "max": 31
+          },
+          "recommended_max_length": 48
+        }
+      }
+    },
+    "leakage": {
+      "instance_id_overlap": 0,
+      "pair_id_overlap": 0,
+      "text_pair_overlap": 12,
+      "reversed_text_overlap": 12,
+      "text_overlap_instances": 14,
+      "text_overlap_label_conflicts": 0,
+      "text_overlap_examples": [
+        {
+          "instance_id": "dico_phrasis_0000271__eu-eu__flipped",
+          "text1": "AEBetako akzioak",
+          "text2": "Akzioak",
+          "dev_label": "FORWARD_ENTAILMENT",
+          "train_label": "FORWARD_ENTAILMENT",
+          "direction": "same"
+        },
+        {
+          "instance_id": "dico_phrasis_0000271__eu-eu__original",
+          "text1": "Akzioak",
+          "text2": "AEBetako akzioak",
+          "dev_label": "BACKWARD_ENTAILMENT",
+          "train_label": "BACKWARD_ENTAILMENT",
+          "direction": "same"
+        },
+        {
+          "instance_id": "dico_phrasis_0000752__eu-eu__flipped",
+          "text1": "uretan murgilduta",
+          "text2": "uretan",
+          "dev_label": "EQUIVALENCE",
+          "train_label": "EQUIVALENCE",
+          "direction": "same"
+        },
+        {
+          "instance_id": "dico_phrasis_0000752__eu-eu__original",
+          "text1": "uretan",
+          "text2": "uretan murgilduta",
+          "dev_label": "EQUIVALENCE",
+          "train_label": "EQUIVALENCE",
+          "direction": "same"
+        },
+        {
+          "instance_id": "dico_phrasis_0001300__eu-eu__flipped",
+          "text1": "etzanda dago",
+          "text2": "etzanda",
+          "dev_label": "EQUIVALENCE",
+          "train_label": "EQUIVALENCE",
+          "direction": "same"
+        }
+      ],
+      "train_pair_ids": 1760,
+      "dev_pair_ids": 383,
+      "split_leak_free": true
+    }
+  },
+  "4": {
+    "splits": {
+      "train": {
+        "track": 4,
+        "split": "train",
+        "files": {
+          "labeled": {
+            "path": "repo\\final_data\\train\\dico_nli_train_track4_participant_labeled.csv",
+            "rows": 18252,
+            "columns": [
+              "instance_id",
+              "pair_id",
+              "text1_lang",
+              "text2_lang",
+              "text1",
+              "text2",
+              "label"
+            ]
+          },
+          "reference": {
+            "path": "repo\\final_data\\train\\dico_nli_train_track4_reference.csv",
+            "rows": 18252,
+            "columns": [
+              "instance_id",
+              "pair_id",
+              "text1_lang",
+              "text2_lang",
+              "text1",
+              "text2",
+              "reverse_pair_id",
+              "label"
+            ]
+          },
+          "submission_template": {
+            "path": "repo\\final_data\\train\\dico_nli_train_track4_submission_template.csv",
+            "rows": 18252,
+            "columns": [
+              "instance_id",
+              "label"
+            ]
+          }
+        },
+        "id_sets": {
+          "labeled_equals_reference": true,
+          "instance_ids": 18252
+        },
+        "quality": {
+          "empty_cells": {
+            "instance_id": 0,
+            "pair_id": 0,
+            "text1_lang": 0,
+            "text2_lang": 0,
+            "text1": 0,
+            "text2": 0,
+            "label": 0
+          },
+          "duplicate_instance_ids": 0,
+          "duplicate_text_pairs": 566,
+          "empty_texts": 0
+        },
+        "labels": {
+          "EQUIVALENCE": 4812,
+          "FORWARD_ENTAILMENT": 5286,
+          "BACKWARD_ENTAILMENT": 5286,
+          "NEGATIVE_OTHER": 2868
+        },
+        "language_pairs": {
+          "en-es": 3042,
+          "en-eu": 3042,
+          "es-en": 3042,
+          "es-eu": 3042,
+          "eu-en": 3042,
+          "eu-es": 3042
+        },
+        "reverse_pairs": {
+          "linked_instances": 15384,
+          "reversible_units": 7692,
+          "singleton_units": 2868,
+          "self_links": 0,
+          "label_mapping_ok": true
+        },
+        "lengths": {
+          "chars_total": {
+            "mean": 36.91,
+            "p50": 33.0,
+            "p95": 70.0,
+            "p99": 90.0,
+            "max": 136
+          },
+          "tokens": {
+            "mean": 12.94,
+            "p95": 20.0,
+            "p99": 26.0,
+            "max": 40
+          },
+          "recommended_max_length": 48
+        }
+      },
+      "dev": {
+        "track": 4,
+        "split": "dev",
+        "files": {
+          "labeled": {
+            "path": "repo\\final_data\\dev\\dico_nli_dev_track4_participant_labeled.csv",
+            "rows": 3960,
+            "columns": [
+              "instance_id",
+              "pair_id",
+              "text1_lang",
+              "text2_lang",
+              "text1",
+              "text2",
+              "label"
+            ]
+          },
+          "reference": {
+            "path": "repo\\final_data\\dev\\dico_nli_dev_track4_reference.csv",
+            "rows": 3960,
+            "columns": [
+              "instance_id",
+              "pair_id",
+              "text1_lang",
+              "text2_lang",
+              "text1",
+              "text2",
+              "reverse_pair_id",
+              "label"
+            ]
+          },
+          "submission_template": {
+            "path": "repo\\final_data\\dev\\dico_nli_dev_track4_submission_template.csv",
+            "rows": 3960,
+            "columns": [
+              "instance_id",
+              "label"
+            ]
+          }
+        },
+        "id_sets": {
+          "labeled_equals_reference": true,
+          "instance_ids": 3960
+        },
+        "quality": {
+          "empty_cells": {
+            "instance_id": 0,
+            "pair_id": 0,
+            "text1_lang": 0,
+            "text2_lang": 0,
+            "text1": 0,
+            "text2": 0,
+            "label": 0
+          },
+          "duplicate_instance_ids": 0,
+          "duplicate_text_pairs": 96,
+          "empty_texts": 0
+        },
+        "labels": {
+          "EQUIVALENCE": 1044,
+          "FORWARD_ENTAILMENT": 1140,
+          "BACKWARD_ENTAILMENT": 1140,
+          "NEGATIVE_OTHER": 636
+        },
+        "language_pairs": {
+          "en-es": 660,
+          "en-eu": 660,
+          "es-en": 660,
+          "es-eu": 660,
+          "eu-en": 660,
+          "eu-es": 660
+        },
+        "reverse_pairs": {
+          "linked_instances": 3324,
+          "reversible_units": 1662,
+          "singleton_units": 636,
+          "self_links": 0,
+          "label_mapping_ok": true
+        },
+        "lengths": {
+          "chars_total": {
+            "mean": 36.68,
+            "p50": 33.0,
+            "p95": 66.0,
+            "p99": 87.0,
+            "max": 115
+          },
+          "tokens": {
+            "mean": 13.08,
+            "p95": 20.0,
+            "p99": 25.0,
+            "max": 31
+          },
+          "recommended_max_length": 48
+        }
+      }
+    },
+    "leakage": {
+      "instance_id_overlap": 0,
+      "pair_id_overlap": 0,
+      "text_pair_overlap": 60,
+      "reversed_text_overlap": 59,
+      "text_overlap_instances": 72,
+      "text_overlap_label_conflicts": 3,
+      "text_overlap_examples": [
+        {
+          "instance_id": "dico_phrasis_0000271__en-es__flipped",
+          "text1": "US stocks",
+          "text2": "Acciones",
+          "dev_label": "FORWARD_ENTAILMENT",
+          "train_label": "FORWARD_ENTAILMENT",
+          "direction": "same"
+        },
+        {
+          "instance_id": "dico_phrasis_0000271__en-es__original",
+          "text1": "Stocks",
+          "text2": "Acciones estadounidenses",
+          "dev_label": "BACKWARD_ENTAILMENT",
+          "train_label": "BACKWARD_ENTAILMENT",
+          "direction": "same"
+        },
+        {
+          "instance_id": "dico_phrasis_0000271__en-eu__flipped",
+          "text1": "US stocks",
+          "text2": "Akzioak",
+          "dev_label": "FORWARD_ENTAILMENT",
+          "train_label": "FORWARD_ENTAILMENT",
+          "direction": "same"
+        },
+        {
+          "instance_id": "dico_phrasis_0000271__en-eu__original",
+          "text1": "Stocks",
+          "text2": "AEBetako akzioak",
+          "dev_label": "BACKWARD_ENTAILMENT",
+          "train_label": "BACKWARD_ENTAILMENT",
+          "direction": "same"
+        },
+        {
+          "instance_id": "dico_phrasis_0000271__es-en__flipped",
+          "text1": "Acciones estadounidenses",
+          "text2": "Stocks",
+          "dev_label": "FORWARD_ENTAILMENT",
+          "train_label": "FORWARD_ENTAILMENT",
+          "direction": "same"
+        }
+      ],
+      "train_pair_ids": 1760,
+      "dev_pair_ids": 383,
+      "split_leak_free": true
+    }
+  }
+}
