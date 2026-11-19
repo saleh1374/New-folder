@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# build artefacts of tools/build_notebook.py
+*.b64
+darc_nli_code.zip
+
+# the organizer repository is cloned, never vendored
+repo/
+
+# training artefacts (checkpoints are gigabytes)
+outputs/
+!outputs/audit_report.json
+
+# OS noise
+Thumbs.db
+.DS_Store
