@@ -375,28 +375,46 @@ class Trainer:
             all_langs.update(dict(zip(batch["instance_ids"], batch["lang_pairs"])))
 
         probs = np.concatenate(all_probs, axis=0)
-        predicted_ids = probs.argmax(axis=1)
-        labels = [ID2LABEL[int(i)] for i in predicted_ids]
 
         cfg = self.cfg
-        predictions_path = cfg.results_dir / f"{split.split}_predictions_{tag}.csv"
-        write_predictions(predictions_path, all_ids, labels)
-
         reference_path = split_paths(cfg.data_root, split.track, split.split)["reference"]
-        score_dir = cfg.results_dir / f"{split.split}_scores_{tag}"
-        report = score_predictions(cfg.data_root, reference_path, predictions_path, score_dir)
-        languages = per_language_report(cfg.data_root, reference_path, predictions_path, all_langs)
 
-        store_json(
-            score_dir / "detailed_report.json",
-            {"report": report, "per_language": languages},
-        )
+        variants: dict[str, np.ndarray] = {"raw": probs}
+        repaired = 0
+        if cfg.pair_consistency:
+            variants["symmetric"], repaired = symmetric_average(all_ids, probs)
+
+        scored: dict[str, Any] = {}
+        for name, matrix in variants.items():
+            labels = [ID2LABEL[int(i)] for i in matrix.argmax(axis=1)]
+            predictions_path = cfg.results_dir / f"{split.split}_predictions_{tag}_{name}.csv"
+            write_predictions(predictions_path, all_ids, labels)
+            score_dir = cfg.results_dir / f"{split.split}_scores_{tag}_{name}"
+            report = score_predictions(cfg.data_root, reference_path, predictions_path, score_dir)
+            languages = per_language_report(
+                cfg.data_root, reference_path, predictions_path, all_langs
+            )
+            store_json(
+                score_dir / "detailed_report.json",
+                {"report": report, "per_language": languages},
+            )
+            scored[name] = {
+                "report": report,
+                "per_language": languages,
+                "predictions_path": str(predictions_path),
+            }
+
+        chosen = "symmetric" if cfg.pair_consistency else "raw"
+        best = scored[chosen]
         return {
-            "report": report,
-            "predictions_path": str(predictions_path),
-            "per_language": languages,
+            "report": best["report"],
+            "predictions_path": best["predictions_path"],
+            "per_language": best["per_language"],
+            "variants": {name: summary_row(item["report"]) for name, item in scored.items()},
+            "repaired_pairs": repaired,
             "probabilities": probs,
             "instance_ids": all_ids,
+        }
         }
 
     def _save_best(self, eval_result: dict[str, Any], epoch: int) -> None:
@@ -413,6 +431,9 @@ class Trainer:
             "lambda_supcon": cfg.loss.lambda_supcon,
             "lambda_dc": cfg.loss.lambda_dc,
             "temperature": cfg.loss.temperature,
+            "pair_consistency": cfg.pair_consistency,
+            "repaired_pairs": eval_result.get("repaired_pairs", 0),
+            "dev_variants": eval_result.get("variants", {}),
             "label2id": {label: idx for idx, label in enumerate(LABELS)},
             "dev_scores": summary_row(eval_result["report"]),
             "dev_per_language": eval_result["per_language"],
