@@ -33,6 +33,7 @@ from darc_nli.losses import (  # noqa: E402
     build_dc_pairs,
     class_weights_from_counts,
 )
+from darc_nli.metrics import symmetric_average  # noqa: E402
 from darc_nli.sampler import PairAwareClassBalancedSampler  # noqa: E402
 
 
@@ -65,18 +66,21 @@ def test_symmetric_average_is_identity_for_consistent_pairs():
     assert np.allclose(adjusted, probs, atol=1e-9)
 
 
-def test_symmetric_average_repairs_a_flipped_prediction():
+def test_symmetric_average_repairs_an_uncertain_direction():
     import numpy as np
 
+    # The forward direction is confident, the reversed one is not: averaging
+    # with the (reversed) confident estimate fixes both instances.
     ids = ["x__original", "x__flipped"]
     probs = np.array([
-        [0.05, 0.90, 0.03, 0.02],
-        [0.05, 0.90, 0.03, 0.02],   # same direction twice -> one must be wrong
+        [0.05, 0.90, 0.03, 0.02],   # FORWARD, confident
+        [0.35, 0.45, 0.15, 0.05],   # says FORWARD too, but weakly
     ])
-    adjusted, _ = symmetric_average(ids, probs)
+    adjusted, repaired = symmetric_average(ids, probs)
+    assert repaired == 1
+    assert adjusted[0].argmax() == 1  # remains FORWARD
+    assert adjusted[1].argmax() == 2  # flipped to BACKWARD
     assert abs(adjusted.sum(axis=1) - 1).max() < 1e-9
-    # the two directions now disagree by construction
-    assert adjusted[0].argmax() != adjusted[1].argmax()
 
 
 def test_supcon_no_positive_anchor_is_zero_not_nan():
