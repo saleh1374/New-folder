@@ -49,7 +49,7 @@ from .data import (
     store_json,
 )
 from .labels import ID2LABEL, LABEL2ID
-from .metrics import format_table, summary_row, write_predictions
+from .metrics import format_table, summary_row, symmetric_average, write_predictions
 from .model import DarcNliModel, build_tokenizer
 from .trainer import Trainer, pick_device
 
@@ -162,6 +162,7 @@ def run_one(track: int, experiment: str, args: argparse.Namespace) -> dict[str, 
         eval_batch_size=args.eval_batch_size,
         num_workers=args.num_workers,
         select_metric=args.select_metric,
+        pair_consistency=args.pair_consistency,
         projection_dim=args.projection_dim,
     )
     if args.lambda_supcon is not None:
@@ -261,15 +262,22 @@ def cmd_predict(args: argparse.Namespace) -> None:
     )
 
     ids: list[str] = []
-    labels: list[str] = []
+    chunks: list["np.ndarray"] = []
     for batch in loader:
         logits, _ = model(
             batch["input_ids"].to(device), batch["attention_mask"].to(device)
         )
-        predicted = logits.argmax(dim=-1).tolist()
+        chunks.append(torch.softmax(logits.float(), dim=-1).cpu().numpy())
         ids.extend(batch["instance_ids"])
-        labels.extend(ID2LABEL[i] for i in predicted)
 
+    import numpy as np
+
+    probs = np.concatenate(chunks, axis=0)
+    if metadata.get("pair_consistency"):
+        probs, repaired = symmetric_average(ids, probs)
+        print(f"pair consistency applied to {repaired} reversible pairs")
+
+    labels = [ID2LABEL[int(i)] for i in probs.argmax(axis=1)]
     write_predictions(Path(args.output), ids, labels)
     print(f"wrote {len(ids)} predictions to {args.output}")
 
@@ -356,6 +364,8 @@ def build_parser() -> argparse.ArgumentParser:
     common.add_argument("--patience", type=int, default=2, help="0 disables early stopping")
     common.add_argument("--select-metric", default="weighted_f1",
                         choices=["weighted_f1", "soft_cons", "hard_cons"])
+    common.add_argument("--pair-consistency", action="store_true",
+                        help="average both directions of each reversible pair before argmax")
     common.add_argument("--device", default=None, help="cuda | cpu | mps (default: auto)")
     common.add_argument("--no-fp16", action="store_true")
     common.add_argument("--max-train-steps", type=int, default=0)

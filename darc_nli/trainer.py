@@ -257,13 +257,22 @@ class Trainer:
                 "seconds": round(elapsed, 1),
                 "train": train_stats,
                 "dev": scores,
+                "dev_variants": eval_result.get("variants", {}),
             }
             self.history.append(record)
+            extra = ""
+            variants = eval_result.get("variants", {})
+            if len(variants) > 1:
+                extra = " | " + " ".join(
+                    f"{name}_f1={values['weighted_f1']:.4f}"
+                    for name, values in variants.items()
+                )
             print(
                 f"  epoch {epoch}: "
                 + " ".join(f"{key}={value}" for key, value in scores.items())
                 + f" | ce={train_stats['ce']:.4f} scl={train_stats['supcon']:.4f} "
                 f"dc={train_stats['dc']:.4f}"
+                + extra
             )
             store_json(cfg.run_dir / "training_log.json", self.history)
 
@@ -386,9 +395,10 @@ class Trainer:
         reference_path = split_paths(cfg.data_root, split.track, split.split)["reference"]
 
         variants: dict[str, np.ndarray] = {"raw": probs}
-        repaired = 0
-        if cfg.pair_consistency:
-            variants["symmetric"], repaired = symmetric_average(all_ids, probs)
+        # The symmetric variant is always measured (it is cheap) so every run
+        # reports the size of the direction-averaging effect; the flag decides
+        # only which variant selects the checkpoint.
+        variants["symmetric"], repaired = symmetric_average(all_ids, probs)
 
         scored: dict[str, Any] = {}
         for name, matrix in variants.items():
@@ -420,7 +430,6 @@ class Trainer:
             "repaired_pairs": repaired,
             "probabilities": probs,
             "instance_ids": all_ids,
-        }
         }
 
     def _save_best(self, eval_result: dict[str, Any], epoch: int) -> None:

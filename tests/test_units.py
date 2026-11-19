@@ -51,6 +51,34 @@ def test_label_space_and_reversal():
     assert REVERSE_PERMUTATION == (0, 2, 1)
 
 
+def test_symmetric_average_is_identity_for_consistent_pairs():
+    import numpy as np
+
+    ids = ["x__original", "x__flipped", "n1"]
+    probs = np.array([
+        [0.05, 0.90, 0.03, 0.02],   # x -> y : FORWARD
+        [0.05, 0.03, 0.90, 0.02],   # y -> x : BACKWARD (consistent)
+        [0.10, 0.10, 0.10, 0.70],   # NEGATIVE_OTHER singleton
+    ])
+    adjusted, repaired = symmetric_average(ids, probs)
+    assert repaired == 1
+    assert np.allclose(adjusted, probs, atol=1e-9)
+
+
+def test_symmetric_average_repairs_a_flipped_prediction():
+    import numpy as np
+
+    ids = ["x__original", "x__flipped"]
+    probs = np.array([
+        [0.05, 0.90, 0.03, 0.02],
+        [0.05, 0.90, 0.03, 0.02],   # same direction twice -> one must be wrong
+    ])
+    adjusted, _ = symmetric_average(ids, probs)
+    assert abs(adjusted.sum(axis=1) - 1).max() < 1e-9
+    # the two directions now disagree by construction
+    assert adjusted[0].argmax() != adjusted[1].argmax()
+
+
 def test_supcon_no_positive_anchor_is_zero_not_nan():
     loss_fn = SupConLoss(temperature=0.1)
     features = torch.randn(4, 8, requires_grad=True)

@@ -99,6 +99,10 @@ class ExperimentConfig:
 
     # model selection / evaluation
     select_metric: str = "weighted_f1"  # weighted_f1 | hard_cons | soft_cons
+    #: Award each reversible pair the average of both directions before the
+    #: argmax (v2 experiment, off by default because the document forbids
+    #: constrained decoding in v1).
+    pair_consistency: bool = False
 
     # smoke testing
     max_train_steps: int = 0
