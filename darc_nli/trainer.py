@@ -19,7 +19,13 @@ from .config import ExperimentConfig
 from .data import NliCollator, NliDataset, Split, split_paths, store_json
 from .labels import ID2LABEL, LABELS, NUM_LABELS
 from .losses import DarcLoss, build_dc_pairs
-from .metrics import per_language_report, score_predictions, summary_row, write_predictions
+from .metrics import (
+    per_language_report,
+    score_predictions,
+    summary_row,
+    symmetric_average,
+    write_predictions,
+)
 from .model import DarcNliModel, build_tokenizer
 from .sampler import PairAwareClassBalancedSampler
 
